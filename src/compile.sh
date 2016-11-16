@@ -14,8 +14,10 @@ g++ \
 #compile proto file
 #protoc \
 #    --cpp_out=./proto/ ./proto/*.proto
+g++ \
+    -c -std=c++11 conf/config.cpp
 
 g++ \
-    -std=c++11 cArduino.o ikcp.o sema.o sess.o util/msg_queue.h \
+    -std=c++11 cArduino.o ikcp.o sema.o sess.o util/msg_queue.h config.o\
     main.cpp proto/protob.pb.cc  `pkg-config --cflags --libs protobuf` -lpthread \
     -o main
