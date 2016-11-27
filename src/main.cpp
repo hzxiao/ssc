@@ -9,16 +9,25 @@
 #include "arduino/cArduino.h"
 #include "conf/config.h"
 #include <signal.h>
+#include <thread>
 
 
 using namespace std;
 
 IUINT32 iclock();
 
-
-
 Config *setting;
 cArduino *arduino;
+
+void run(){
+    while(true){
+        string msg;
+        msg = arduino->read();
+        if (!msg.empty()){
+            cout << "from arduino: " << msg << endl;
+        }
+    }
+}
 
 //cArduino arduino(ArduinoBaundRate::B19200bps, "/dev/ttyACM0");
 static void sig_alarm(int signo);
@@ -50,6 +59,9 @@ int main() {
     char *name = (char *) "/dev/ttyACM0";
     arduino = new cArduino(ArduinoBaundRate::B19200bps, name);
 
+
+    thread readArduinoThread(run);
+    readArduinoThread.detach();
 
     sprintf(buf, "iam");
     sess->Write(buf, strlen(buf));
