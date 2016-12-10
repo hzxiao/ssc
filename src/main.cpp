@@ -35,7 +35,7 @@ static void sig_alarm(int signo);
 
 int main() {
 
-    string file("./cfg.conf");
+    string file("/home/hz/work/ClionProjects/ssc/src/cfg.conf");
     setting = new Config(file);
     assert(setting != nullptr);
 
